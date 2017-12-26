@@ -1,10 +1,10 @@
-/*
+п»ї/*
  * ds2413.c
  *
  * Created: 22.12.2017 16:30:55
  *
- * Выходы у 2413 - ИНВЕРСНЫЕ!!! Замыкают нагрузку на землю
- * 0 - ключ открыт, 1 - закрыт
+ * Р’С‹С…РѕРґС‹ Сѓ 2413 - РРќР’Р•Р РЎРќР«Р•!!! Р—Р°РјС‹РєР°СЋС‚ РЅР°РіСЂСѓР·РєСѓ РЅР° Р·РµРјР»СЋ
+ * 0 - РєР»СЋС‡ РѕС‚РєСЂС‹С‚, 1 - Р·Р°РєСЂС‹С‚
  *
  */ 
 #include <avr/io.h>
@@ -56,10 +56,10 @@ uint8_t DS2413_SetSwitchOn(uint8_t *rom){
 
 /*
 4 - 7 Complement of b3 to b0 
-3 - PIOB Output Latch State (состояние ключа B)
-2 - PIOB Pin State (состояние выхода B)
-1 - PIOA Output Latch State (состояние ключа A)
-0 - PIOA Pin State (состояние выхода A)
+3 - PIOB Output Latch State (СЃРѕСЃС‚РѕСЏРЅРёРµ РєР»СЋС‡Р° B)
+2 - PIOB Pin State (СЃРѕСЃС‚РѕСЏРЅРёРµ РІС‹С…РѕРґР° B)
+1 - PIOA Output Latch State (СЃРѕСЃС‚РѕСЏРЅРёРµ РєР»СЋС‡Р° A)
+0 - PIOA Pin State (СЃРѕСЃС‚РѕСЏРЅРёРµ РІС‹С…РѕРґР° A)
 
 Note: Usually, the PIO pin state and PIO Output Latch State are the same. To read from a PIO, the PIO Output
 Latch must be 1. If the PIO pin is then pulled low by a switch or external circuitry, the output latch state and pin
@@ -72,7 +72,7 @@ uint8_t DS2413_GetSwitchState(uint8_t *rom){
 	if (rom)
 		OW_MatchROM(rom);
 
-	// после этой команды slave постоянно шлет состояние пока мастер не сделает сброс
+	// РїРѕСЃР»Рµ СЌС‚РѕР№ РєРѕРјР°РЅРґС‹ slave РїРѕСЃС‚РѕСЏРЅРЅРѕ С€Р»РµС‚ СЃРѕСЃС‚РѕСЏРЅРёРµ РїРѕРєР° РјР°СЃС‚РµСЂ РЅРµ СЃРґРµР»Р°РµС‚ СЃР±СЂРѕСЃ
 	// Datasheet, page 16: Continues until master sends Reset Pulse	OW_WriteByte(OW_CMD_PIO_READ); 
 
 	// Datasheet, page 17:

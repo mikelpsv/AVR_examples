@@ -1,4 +1,4 @@
-#ifndef __RTC_H__
+п»ї#ifndef __RTC_H__
 #define __RTC_H__
 
 
@@ -6,7 +6,7 @@
 #define RTC_RESET_POINTER   0xff
 #define DS1307_ADR			104
 
-/*адреса регистров*/
+/*Р°РґСЂРµСЃР° СЂРµРіРёСЃС‚СЂРѕРІ*/
 
 #define RTC_SEC_ADR     0x00
 #define RTC_MIN_ADR     0x01
@@ -16,7 +16,7 @@
 #define RTC_MONTH_ADR   0x05
 #define RTC_YEAR_ADR    0x06
 
-/*пользовательские функции*/
+/*РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ С„СѓРЅРєС†РёРё*/
 
 void RTC_Init(void);
 void RTC_SetValue(uint8_t adr, uint8_t data);

@@ -1,4 +1,4 @@
-
+п»ї
 #define BAUD 9600
 
 
@@ -32,16 +32,16 @@ void USART0_write(unsigned char data){
 	UDR0 = data;
 }
 
-FILE usart_str = FDEV_SETUP_STREAM(USART0_write, NULL, _FDEV_SETUP_WRITE); // для функции printf
+FILE usart_str = FDEV_SETUP_STREAM(USART0_write, NULL, _FDEV_SETUP_WRITE); // РґР»СЏ С„СѓРЅРєС†РёРё printf
 
 void print_address(unsigned char* address) {
 	printf("%.2X %.2X %.2X %.2X %.2X %.2X %.2X %.2X", address[0],address[1],address[2],address[3],address[4],address[5],address[6],address[7]);
 }
 
-unsigned char	nDevices;	// количество сенсоров
-unsigned char	owDevicesIDs[MAXDEVICES][8];	// Их ID
+unsigned char	nDevices;	// РєРѕР»РёС‡РµСЃС‚РІРѕ СЃРµРЅСЃРѕСЂРѕРІ
+unsigned char	owDevicesIDs[MAXDEVICES][8];	// РС… ID
 
-// поиск всех устройств на шине
+// РїРѕРёСЃРє РІСЃРµС… СѓСЃС‚СЂРѕР№СЃС‚РІ РЅР° С€РёРЅРµ
 unsigned char search_ow_devices(void){
 	unsigned char	i;
    	unsigned char	id[OW_ROMCODE_SIZE];
@@ -65,16 +65,16 @@ unsigned char search_ow_devices(void){
 
 
 
-unsigned char	themperature[3]; // в этот массив будет записана температура
+unsigned char	themperature[3]; // РІ СЌС‚РѕС‚ РјР°СЃСЃРёРІ Р±СѓРґРµС‚ Р·Р°РїРёСЃР°РЅР° С‚РµРјРїРµСЂР°С‚СѓСЂР°
 int main(void)
 {
-	stdout = &usart_str; // указываем, куда будет выводить printf 
+	stdout = &usart_str; // СѓРєР°Р·С‹РІР°РµРј, РєСѓРґР° Р±СѓРґРµС‚ РІС‹РІРѕРґРёС‚СЊ printf 
 /*
 	DDRB = 0b00000010; PORTB = 0b00000010;
 	DDRC = 0b00000000; PORTC = 0b00000000;
 	DDRD = 0b00000010; PORTD = 0b00000000;
 */
-	USART_init(); // включаем uart
+	USART_init(); // РІРєР»СЋС‡Р°РµРј uart
 
 
 //////////////////////////////////////////
@@ -85,7 +85,7 @@ int main(void)
   
 	RTC_Init();
   
-	/*установка начального значения часов*/
+	/*СѓСЃС‚Р°РЅРѕРІРєР° РЅР°С‡Р°Р»СЊРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ С‡Р°СЃРѕРІ*/
   
 	RTC_SetValue(RTC_HOUR_ADR, 9);
 	RTC_SetValue(RTC_MIN_ADR, 0);
@@ -96,11 +96,11 @@ int main(void)
 	RTC_SetValue(RTC_YEAR_ADR, 2017); // TODO: year truncate
 	
 	
-	/* читаем*/ 
+	/* С‡РёС‚Р°РµРј*/ 
 	
-    /*устанавливаем указатель на нулевой адрес*/
+    /*СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РЅСѓР»РµРІРѕР№ Р°РґСЂРµСЃ*/
     RTC_SetValue(0, RTC_RESET_POINTER);
-    /*считываем время*/
+    /*СЃС‡РёС‚С‹РІР°РµРј РІСЂРµРјСЏ*/
     sec		= RTC_Decode(RTC_GetValue());
     min		= RTC_Decode(RTC_GetValue());
     hour	= RTC_Decode(RTC_GetValue());
@@ -123,41 +123,41 @@ while(1){
 	
 	
 	
-	nDevices = search_ow_devices(); // ищем все устройства
+	nDevices = search_ow_devices(); // РёС‰РµРј РІСЃРµ СѓСЃС‚СЂРѕР№СЃС‚РІР°
 
 	printf("\r---------- Found %d devices ----------", nDevices);
 
 
-	for (unsigned char i=0; i<nDevices; i++) // теперь сотируем устройства и запрашиваем данные
+	for (unsigned char i=0; i<nDevices; i++) // С‚РµРїРµСЂСЊ СЃРѕС‚РёСЂСѓРµРј СѓСЃС‚СЂРѕР№СЃС‚РІР° Рё Р·Р°РїСЂР°С€РёРІР°РµРј РґР°РЅРЅС‹Рµ
 	{
-		// узнать устройство можно по его груповому коду, который расположен в первом байте адресса
+		// СѓР·РЅР°С‚СЊ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ РјРѕР¶РЅРѕ РїРѕ РµРіРѕ РіСЂСѓРїРѕРІРѕРјСѓ РєРѕРґСѓ, РєРѕС‚РѕСЂС‹Р№ СЂР°СЃРїРѕР»РѕР¶РµРЅ РІ РїРµСЂРІРѕРј Р±Р°Р№С‚Рµ Р°РґСЂРµСЃСЃР°
 		switch (owDevicesIDs[i][0])
 		{
-			case OW_DS18B20_FAMILY_CODE: { // если найден термодатчик DS18B20
+			case OW_DS18B20_FAMILY_CODE: { // РµСЃР»Рё РЅР°Р№РґРµРЅ С‚РµСЂРјРѕРґР°С‚С‡РёРє DS18B20
 				printf("\r"); print_address(owDevicesIDs[i]);
 				printf(" - Thermometer DS18B20"); 
 				
-				DS18x20_StartMeasure(owDevicesIDs[i]); // запускаем измерение
+				DS18x20_StartMeasure(owDevicesIDs[i]); // Р·Р°РїСѓСЃРєР°РµРј РёР·РјРµСЂРµРЅРёРµ
 				_delay_ms(800);
 				
 				uint8_t data[8];
 				DS18x20_ReadData(owDevicesIDs[i], data);
 				
-				//float t = DS18x20_ConvertToThemperatureFl(data); // преобразовываем температуру в человекопонятный вид
+				//float t = DS18x20_ConvertToThemperatureFl(data); // РїСЂРµРѕР±СЂР°Р·РѕРІС‹РІР°РµРј С‚РµРјРїРµСЂР°С‚СѓСЂСѓ РІ С‡РµР»РѕРІРµРєРѕРїРѕРЅСЏС‚РЅС‹Р№ РІРёРґ
 				//printf(": [%3.2f] C", t);
 				int tt = gettemp_b(data);
 				printf(": [%d] C", tt);
 			} break;
 
-			case OW_DS18S20_FAMILY_CODE: { // если найден термодатчик DS18B20
-				printf("\r"); print_address(owDevicesIDs[i]); // печатаем знак переноса строки, затем - адрес
-				printf(" - Thermometer DS18S20"); // печатаем тип устройства
+			case OW_DS18S20_FAMILY_CODE: { // РµСЃР»Рё РЅР°Р№РґРµРЅ С‚РµСЂРјРѕРґР°С‚С‡РёРє DS18B20
+				printf("\r"); print_address(owDevicesIDs[i]); // РїРµС‡Р°С‚Р°РµРј Р·РЅР°Рє РїРµСЂРµРЅРѕСЃР° СЃС‚СЂРѕРєРё, Р·Р°С‚РµРј - Р°РґСЂРµСЃ
+				printf(" - Thermometer DS18S20"); // РїРµС‡Р°С‚Р°РµРј С‚РёРї СѓСЃС‚СЂРѕР№СЃС‚РІР°
 				
-				DS18x20_StartMeasure(owDevicesIDs[i]); // запускаем измерение
+				DS18x20_StartMeasure(owDevicesIDs[i]); // Р·Р°РїСѓСЃРєР°РµРј РёР·РјРµСЂРµРЅРёРµ
 				_delay_ms(800);
-				unsigned char	data[8]; // переменная для хранения старшего и младшего байта данных
-				DS18x20_ReadData(owDevicesIDs[i], data); // считываем данные
-				//float t = DS18x20_ConvertToThemperatureF2(data); // преобразовываем температуру в человекопонятный вид
+				unsigned char	data[8]; // РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЃС‚Р°СЂС€РµРіРѕ Рё РјР»Р°РґС€РµРіРѕ Р±Р°Р№С‚Р° РґР°РЅРЅС‹С…
+				DS18x20_ReadData(owDevicesIDs[i], data); // СЃС‡РёС‚С‹РІР°РµРј РґР°РЅРЅС‹Рµ
+				//float t = DS18x20_ConvertToThemperatureF2(data); // РїСЂРµРѕР±СЂР°Р·РѕРІС‹РІР°РµРј С‚РµРјРїРµСЂР°С‚СѓСЂСѓ РІ С‡РµР»РѕРІРµРєРѕРїРѕРЅСЏС‚РЅС‹Р№ РІРёРґ
 				int tt = gettemp_s(data);
 				
 				printf(": [%d] C", tt);
@@ -165,30 +165,30 @@ while(1){
 				
 			} break;
 
-			case OW_DS1990_FAMILY_CODE: { // если найден электронный ключ DS1990
-				printf("\r"); print_address(owDevicesIDs[i]); // печатаем знак переноса строки, затем - адрес
-				printf(" - Serial button DS1990"); // печатаем тип устройства
+			case OW_DS1990_FAMILY_CODE: { // РµСЃР»Рё РЅР°Р№РґРµРЅ СЌР»РµРєС‚СЂРѕРЅРЅС‹Р№ РєР»СЋС‡ DS1990
+				printf("\r"); print_address(owDevicesIDs[i]); // РїРµС‡Р°С‚Р°РµРј Р·РЅР°Рє РїРµСЂРµРЅРѕСЃР° СЃС‚СЂРѕРєРё, Р·Р°С‚РµРј - Р°РґСЂРµСЃ
+				printf(" - Serial button DS1990"); // РїРµС‡Р°С‚Р°РµРј С‚РёРї СѓСЃС‚СЂРѕР№СЃС‚РІР°
 			} break;
-			case OW_DS2430_FAMILY_CODE: { // если найдена EEPROM
-				printf("\r"); print_address(owDevicesIDs[i]); // печатаем знак переноса строки, затем - адрес
-				printf(" - EEPROM DS2430"); // печатаем тип устройства
-			} break;
-
-			case OW_DS2405_FAMILY_CODE: { // если найден ключ
-				printf("\r"); print_address(owDevicesIDs[i]); // печатаем знак переноса строки, затем - адрес
-				printf(" - Switch 2405"); // печатаем тип устройства
+			case OW_DS2430_FAMILY_CODE: { // РµСЃР»Рё РЅР°Р№РґРµРЅР° EEPROM
+				printf("\r"); print_address(owDevicesIDs[i]); // РїРµС‡Р°С‚Р°РµРј Р·РЅР°Рє РїРµСЂРµРЅРѕСЃР° СЃС‚СЂРѕРєРё, Р·Р°С‚РµРј - Р°РґСЂРµСЃ
+				printf(" - EEPROM DS2430"); // РїРµС‡Р°С‚Р°РµРј С‚РёРї СѓСЃС‚СЂРѕР№СЃС‚РІР°
 			} break;
 
-			case OW_DS2413_FAMILY_CODE: { // если найден ключ
-				printf("\r"); print_address(owDevicesIDs[i]); // печатаем знак переноса строки, затем - адрес
-				printf(" - Switch 2413!!!"); // печатаем тип устройства
+			case OW_DS2405_FAMILY_CODE: { // РµСЃР»Рё РЅР°Р№РґРµРЅ РєР»СЋС‡
+				printf("\r"); print_address(owDevicesIDs[i]); // РїРµС‡Р°С‚Р°РµРј Р·РЅР°Рє РїРµСЂРµРЅРѕСЃР° СЃС‚СЂРѕРєРё, Р·Р°С‚РµРј - Р°РґСЂРµСЃ
+				printf(" - Switch 2405"); // РїРµС‡Р°С‚Р°РµРј С‚РёРї СѓСЃС‚СЂРѕР№СЃС‚РІР°
+			} break;
+
+			case OW_DS2413_FAMILY_CODE: { // РµСЃР»Рё РЅР°Р№РґРµРЅ РєР»СЋС‡
+				printf("\r"); print_address(owDevicesIDs[i]); // РїРµС‡Р°С‚Р°РµРј Р·РЅР°Рє РїРµСЂРµРЅРѕСЃР° СЃС‚СЂРѕРєРё, Р·Р°С‚РµРј - Р°РґСЂРµСЃ
+				printf(" - Switch 2413!!!"); // РїРµС‡Р°С‚Р°РµРј С‚РёРї СѓСЃС‚СЂРѕР№СЃС‚РІР°
 				
-				// все включили							
+				// РІСЃРµ РІРєР»СЋС‡РёР»Рё							
 				uint8_t state = DS2413_SetSwitchOn(owDevicesIDs[i]);
 				printf("\rState pin AB as 0 0 (on): %d", state);
 				_delay_ms(1000);
 				
-				// все выключили
+				// РІСЃРµ РІС‹РєР»СЋС‡РёР»Рё
 				state = DS2413_SetSwitchOff(owDevicesIDs[i]);
 				printf("\rState pin AB as 1 1 (off): %d", state);
 				_delay_ms(1000);

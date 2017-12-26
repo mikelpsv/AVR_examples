@@ -1,4 +1,4 @@
-#include <avr/io.h>
+п»ї#include <avr/io.h>
 #include "onewire.h"
 #include "ds18x20.h"
 
@@ -68,7 +68,7 @@ uint8_t DS18x20_ReadData(uint8_t *rom, uint8_t *buffer){
 	uint8_t	buff[10] = {1,2,3,4,5,6,7,8,9};
 	for (uint8_t i=0; i<9; i++) buff[i] = OW_ReadByte();
 	buffer[0] = buff[0]; buffer[1] = buff[1];
-	if (crc8(buff, 9)) return 0;	// если контрольная сумма не совпала, возвращаем ошибку
+	if (crc8(buff, 9)) return 0;	// РµСЃР»Рё РєРѕРЅС‚СЂРѕР»СЊРЅР°СЏ СЃСѓРјРјР° РЅРµ СЃРѕРІРїР°Р»Р°, РІРѕР·РІСЂР°С‰Р°РµРј РѕС€РёР±РєСѓ
 #else 
 	//Read Scratchpad (only 2 first bytes)
 	buffer[0] = OW_ReadByte(); // Read TL
@@ -96,7 +96,7 @@ void DS18x20_ConvertToThemperature(uint8_t* data, uint8_t* themp)
 	themp[1] *= 6;	
 	if (data[1]>0xFB){
 		themp[0] = 127-themp[0];
-		themp[0] |= 0b10000000; // если температура минусовая
+		themp[0] |= 0b10000000; // РµСЃР»Рё С‚РµРјРїРµСЂР°С‚СѓСЂР° РјРёРЅСѓСЃРѕРІР°СЏ
 	} 
 }
 
@@ -119,7 +119,7 @@ float DS18x20_ConvertToThemperatureFl(uint8_t* data){
 	/*
 	if (data[1]>0xFB){
 		digit = 127-digit;
-		digit |= 0b10000000; // если температура минусовая
+		digit |= 0b10000000; // РµСЃР»Рё С‚РµРјРїРµСЂР°С‚СѓСЂР° РјРёРЅСѓСЃРѕРІР°СЏ
 	} 
 	*/
 	return Temperature;
@@ -144,7 +144,7 @@ float DS18x20_ConvertToThemperatureF2(uint8_t* data){
 	/*
 	if (data[1]>0xFB){
 		digit = 127-digit;
-		digit |= 0b10000000; // если температура минусовая
+		digit |= 0b10000000; // РµСЃР»Рё С‚РµРјРїРµСЂР°С‚СѓСЂР° РјРёРЅСѓСЃРѕРІР°СЏ
 	} 
 	*/
 	return Temperature;

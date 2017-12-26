@@ -1,4 +1,4 @@
-#ifndef __ONEWIRE_H__
+﻿#ifndef __ONEWIRE_H__
 #define __ONEWIRE_H__
 
 #define MAXDEVICES 10

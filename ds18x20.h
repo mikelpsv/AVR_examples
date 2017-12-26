@@ -1,4 +1,4 @@
-#ifndef __DS18x20_H__
+﻿#ifndef __DS18x20_H__
 #define __DS18x20_H__
 
 

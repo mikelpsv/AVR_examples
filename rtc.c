@@ -1,4 +1,4 @@
-#include <avr/io.h>
+п»ї#include <avr/io.h>
 #include "rtc.h"
 
 #define F_I2C          50000UL
@@ -15,23 +15,23 @@ void RTC_Init(void){
 
 
 void RTC_SetValue(uint8_t adr, uint8_t data){
-  /*формируем состояние СТАРТ*/ 
+  /*С„РѕСЂРјРёСЂСѓРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ РЎРўРђР Рў*/ 
   TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
   while(!(TWCR & (1<<TWINT)));
 
-  /*выдаемна шину пакет SLA-W*/  
+  /*РІС‹РґР°РµРјРЅР° С€РёРЅСѓ РїР°РєРµС‚ SLA-W*/  
   TWDR = (DS1307_ADR<<1)|0;
   TWCR = (1<<TWINT)|(1<<TWEN); 
   while(!(TWCR & (1<<TWINT)));
   
-  /*передаем адрес регистра ds1307*/
+  /*РїРµСЂРµРґР°РµРј Р°РґСЂРµСЃ СЂРµРіРёСЃС‚СЂР° ds1307*/
   TWDR = adr;
   TWCR = (1<<TWINT)|(1<<TWEN); 
   while(!(TWCR & (1<<TWINT)));
   
-  /*передаем данные или пропускаем*/
+  /*РїРµСЂРµРґР°РµРј РґР°РЅРЅС‹Рµ РёР»Рё РїСЂРѕРїСѓСЃРєР°РµРј*/
   if (data != RTC_RESET_POINTER){
-     /*это чтобы привести данные к BCD формату*/
+     /*СЌС‚Рѕ С‡С‚РѕР±С‹ РїСЂРёРІРµСЃС‚Рё РґР°РЅРЅС‹Рµ Рє BCD С„РѕСЂРјР°С‚Сѓ*/
      //data = ((data/10)<<4) + data%10; 
       
      TWDR = RTC_Encode(data);
@@ -39,28 +39,28 @@ void RTC_SetValue(uint8_t adr, uint8_t data){
      while(!(TWCR & (1<<TWINT)));
   }
   
-  /*формируем состояние СТОП*/ 
+  /*С„РѕСЂРјРёСЂСѓРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ РЎРўРћРџ*/ 
   TWCR = (1<<TWINT)|(1<<TWSTO)|(1<<TWEN);  
 }
 
 uint8_t RTC_GetValue(void){
   uint8_t data;
   
-  /*формируем состояние СТАРТ*/
+  /*С„РѕСЂРјРёСЂСѓРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ РЎРўРђР Рў*/
   TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
   while(!(TWCR & (1<<TWINT))); 
   
-  /*выдаемна шину пакет SLA-R*/
+  /*РІС‹РґР°РµРјРЅР° С€РёРЅСѓ РїР°РєРµС‚ SLA-R*/
   TWDR = (DS1307_ADR<<1)|1;
   TWCR = (1<<TWINT)|(1<<TWEN); 
   while(!(TWCR & (1<<TWINT)));  
   
-  /*считываем данные*/
+  /*СЃС‡РёС‚С‹РІР°РµРј РґР°РЅРЅС‹Рµ*/
   TWCR = (1<<TWINT)|(1<<TWEN);
   while(!(TWCR & (1<<TWINT)));
   data = TWDR;
   
-  /*формируем состояние СТОП*/
+  /*С„РѕСЂРјРёСЂСѓРµРј СЃРѕСЃС‚РѕСЏРЅРёРµ РЎРўРћРџ*/
   TWCR = (1<<TWINT)|(1<<TWSTO)|(1<<TWEN);
   
   return data; 
